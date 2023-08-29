@@ -1,0 +1,73 @@
+<template>
+    <lightning-card title={label.WeatherWidgetTitle}>
+        <template if:true={isEditAddressMode}>
+            <lightning-record-edit-form
+                class="slds-p-around_x-small"
+                record-id={recordId}
+                object-api-name="Account"
+                onsubmit={handleFormSubmit}
+                onsuccess={handleFormSuccess}
+                onload={handleFormLoad}
+            >    
+                <lightning-messages></lightning-messages>
+    
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-p-horizontal_small slds-size_1-of-1">
+                        <lightning-input-field field-name="BillingStreet"></lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-p-horizontal_small slds-size_1-of-1">
+                        <lightning-input-field field-name="BillingPostalCode"></lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-p-horizontal_small slds-size_1-of-1 slds-grid slds-wrap">
+                        <div class="slds-col slds-size_7-of-12">
+                            <lightning-input-field field-name="BillingCity" required></lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_5-of-12">
+                            <lightning-input-field field-name="BillingState"></lightning-input-field>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-p-horizontal_small slds-size_1-of-1">
+                        <lightning-input-field field-name="BillingCountry" required></lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-p-horizontal_small slds-size_1-of-1 slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-output-field field-name="BillingLatitude"></lightning-output-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-output-field field-name="BillingLongitude"></lightning-output-field>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slds-m-top_medium slds-align_absolute-center">
+                    <lightning-button label={label.WeatherWidgetSave} type="submit"></lightning-button>
+                </div>            
+            </lightning-record-edit-form>
+        </template>
+        
+        <template if:false={isEditAddressMode}>
+            <div class="slds-m-top_medium slds-align_absolute-center">
+                <lightning-button 
+                    label={label.WeatherWidgetEditBillingAddress}
+                    onclick={handleEditAddressClick}
+                ></lightning-button>
+            </div>
+        </template>
+
+        <div class="slds-p-around_medium slds-align_absolute-center">
+            <template if:true={iconFullPath}>
+                <img src={iconFullPath} alt={weatherMessage}>
+            </template>
+            <template if:true={weatherMessage}>
+                <p class="slds-text-heading_small">{weatherMessage}</p>
+            </template>
+            <lightning-button-icon 
+                class="slds-m-left_small"
+                icon-name="utility:refresh"  
+                alternative-text={label.WeatherWidgetRefresh} 
+                title={label.WeatherWidgetRefresh} 
+                onclick={handleRefreshButtonClick}
+            ></lightning-button-icon>
+        </div>
+    </lightning-card>
+</template>
